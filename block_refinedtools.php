@@ -49,15 +49,17 @@ class block_refinedtools extends block_list {
             $securewwwroot = str_replace('http:', 'https:', $CFG->wwwroot);
         }
 
-        if (has_capability('moodle/course:update', $context)) {
-            $icon = '<img src="' . $CFG->wwwroot . '/mod/connectmeeting/pix/icon.png" class="icon" alt="Launch Adobe Connect" />';
-            $this->content->items[] = '<a target="connect" href="' . $CFG->wwwroot . '/filter/connect/launch.php">' . $icon . get_string('launch', 'connectmeeting') . '</a>';
+        if ( has_capability('moodle/course:update', $context) || has_capability('local/refinedservices:directacaccess', context_system::instance()) ) {
+            $icon                   = '<img src="' . $CFG->wwwroot . '/mod/connectmeeting/pix/icon.png" class="icon" alt="Launch Adobe Connect" />';
+            $this->content->items[] = '<a target="connect" href="' . $CFG->wwwroot . '/filter/connect/launch.php">' . $icon . get_string( 'launch', 'connectmeeting' ) . '</a>';
             $this->content->icons[] = '';
+        }
 
-            if (!has_capability('moodle/course:view', $context)) { // Just return
-                return $this->content;
-            }
+        if (!has_capability('moodle/course:view', $context)) { // Just return
+            return $this->content;
+        }
 
+        if (has_capability('moodle/course:update', $context)) {
             if ($DB->get_record('config_plugins', array('plugin' => 'local_reminders', 'name' => 'version'))) {
                 $icon = '<img src="' . $OUTPUT->pix_url('i/email') . '" class="icon" alt="Browse Reminders" />';
                 $this->content->items[] = '<a href="' . $CFG->wwwroot . '/local/reminders/reminders.php">' . $icon . get_string('browse', 'local_reminders') . '</a>';

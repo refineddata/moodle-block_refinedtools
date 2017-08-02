@@ -104,17 +104,6 @@ class block_refinedtools extends block_list {
                 $this->content->icons[] = '';
             }
 
-            if ( $course->id != SITEID ){
-                $enrol = $DB->get_record('enrol', array('enrol' => 'rtform', 'courseid' => $course->id, 'status' => 0));
-                if (!empty($enrol)){
-                    $icon = '<img src="' . $OUTPUT->pix_url('i/users') . '" class="icon" alt="Tutors" />';
-                    $this->content->items[] = '<a href="' . $CFG->wwwroot . '/enrol/rtform/dashboard.php?id=' . $course->id . '">' . $icon . get_string('rtformdashboard', 'enrol_rtform') . '</a>';
-                    $this->content->icons[] = '';
-                    $icon = '<img src="' . $OUTPUT->pix_url('i/users') . '" class="icon" alt="Tutors" />';
-                    $this->content->items[] = '<a href="' . $CFG->wwwroot . '/enrol/rtform/workbook.php?id=' . $course->id . '">' . $icon . get_string('rtformworkbook', 'enrol_rtform') . '</a>';
-                    $this->content->icons[] = '';
-                }
-            }
 
             $icon = '<img src="' . $CFG->wwwroot . '/blocks/refinedtools/pix/rds_16x16.png" class="icon" />';
             $this->content->items[] = '<a target="_blank" href="http://support.refineddata.com">' . $icon . get_string('rt_support_center', 'block_refinedtools') . '</a>';

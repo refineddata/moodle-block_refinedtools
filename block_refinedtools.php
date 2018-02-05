@@ -106,7 +106,7 @@ class block_refinedtools extends block_list {
 
 
             $icon = '<img src="' . $CFG->wwwroot . '/blocks/refinedtools/pix/rds_16x16.png" class="icon" />';
-            $this->content->items[] = '<a target="_blank" href="http://support.refineddata.com">' . $icon . get_string('rt_support_center', 'block_refinedtools') . '</a>';
+            $this->content->items[] = '<a target="_blank" href="https://refineddatasolutions.atlassian.net/servicedesk/customer/portals">' . $icon . get_string('rt_support_center', 'block_refinedtools') . '</a>';
             $this->content->icons[] = '';
         }
 

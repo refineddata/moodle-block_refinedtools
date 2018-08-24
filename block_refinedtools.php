@@ -59,47 +59,62 @@ class block_refinedtools extends block_list {
             return $this->content;
         }
 
+        // for Moodle 3.3 onwards
+        if (method_exists($OUTPUT, 'image_url')){
+            $email_icon = $OUTPUT->image_url('i/email');
+            $group_icon = $OUTPUT->image_url('i/group');
+            $key_icon = $OUTPUT->image_url('i/key');
+            $stats_icon = $OUTPUT->image_url('i/stats');
+            $users_icon = $OUTPUT->image_url('i/users');
+        } else {
+            $email_icon = $OUTPUT->pix_url('i/email');
+            $group_icon = $OUTPUT->pix_url('i/group');
+            $key_icon = $OUTPUT->pix_url('i/key');
+            $stats_icon = $OUTPUT->pix_url('i/stats');
+            $users_icon = $OUTPUT->pix_url('i/users');
+        }
+
         if (has_capability('moodle/course:update', $context)) {
             if ($DB->get_record('config_plugins', array('plugin' => 'local_reminders', 'name' => 'version'))) {
-                $icon = '<img src="' . $OUTPUT->pix_url('i/email') . '" class="icon" alt="Browse Reminders" />';
+                $icon = '<img src="' . $email_icon . '" class="icon" alt="Browse Reminders" />';
                 $this->content->items[] = '<a href="' . $CFG->wwwroot . '/local/reminders/reminders.php">' . $icon . get_string('browse', 'local_reminders') . '</a>';
                 $this->content->icons[] = '';
             }
 
             if ($DB->get_record('config_plugins', array('plugin' => 'local_managers', 'name' => 'version'))) {
-                $icon = '<img src="' . $OUTPUT->pix_url('i/group') . '" class="icon" alt="' . get_string('pluginname', 'local_managers') . '" />';
+                $icon = '<img src="' . $group_icon . '" class="icon" alt="' . get_string('pluginname', 'local_managers') . '" />';
                 $this->content->items[] = '<a href="' . $CFG->wwwroot . '/local/managers/managers.php">' . $icon . get_string('pluginname', 'local_managers') . '</a>';
                 $this->content->icons[] = '';
             }
 
             if ($DB->get_record('config_plugins', array('plugin' => 'enrol_token', 'name' => 'version'))) {
-                $icon = '<img src="' . $OUTPUT->pix_url('i/key') . '" class="icon" alt="Enrol Tokens" />';
+                $icon = '<img src="' . $key_icon . '" class="icon" alt="Enrol Tokens" />';
                 $this->content->items[] = '<a href="' . $CFG->wwwroot . '/enrol/token/browse.php">' . $icon . get_string('addedit', 'enrol_token') . '</a>';
                 $this->content->icons[] = '';
             }
 
             if ($DB->get_record('config_plugins', array('plugin' => 'local_rolealerts', 'name' => 'version'))) {
-                $icon = '<img src="' . $OUTPUT->pix_url('i/group') . '" class="icon" alt="' . get_string('pluginname', 'local_rolealerts') . '" />';
+                $icon = '<img src="' . $group_icon . '" class="icon" alt="' . get_string('pluginname', 'local_rolealerts') . '" />';
                 $this->content->items[] = '<a href="' . $CFG->wwwroot . '/local/rolealerts/index.php">' . $icon . get_string('pluginname', 'local_rolealerts') . '</a>';
                 $this->content->icons[] = '';
             }
 
             if (isset($CFG->local_workbook) AND $CFG->local_workbook AND $course->id != SITEID) {
                 if ($DB->get_record('config_plugins', array('plugin' => 'local_webinars', 'name' => 'version')) AND $course->id != SITEID) {
-                    $icon = '<img src="' . $OUTPUT->pix_url('i/stats') . '" class="icon" alt="' . get_string('workbook', 'local_webinars') . '" />';
+                    $icon = '<img src="' . $stats_icon . '" class="icon" alt="' . get_string('workbook', 'local_webinars') . '" />';
                     $this->content->items[] = '<a href="' . $CFG->wwwroot . '/local/webinars/workbook.php?id=' . $course->id . '">' . $icon . get_string('workbook', 'local_webinars') . '</a>';
                     $this->content->icons[] = '';
                 }
 
                 if ($DB->get_record('config_plugins', array('plugin' => 'local_webinars', 'name' => 'version')) AND $course->id != SITEID) {
-                    $icon = '<img src="' . $OUTPUT->pix_url('i/stats') . '" class="icon" alt="' .  get_string('dashboard', 'local_webinars') . '" />';
+                    $icon = '<img src="' . $stats_icon . '" class="icon" alt="' .  get_string('dashboard', 'local_webinars') . '" />';
                     $this->content->items[] = '<a href="' . $CFG->wwwroot . '/local/webinars/dashboard.php?id=' . $course->id . '">' . $icon . get_string('dashboard', 'local_webinars') . '</a>';
                     $this->content->icons[] = '';
                 }
             }
 
             if (isset($CFG->tsession_autotutor) AND $course->id != SITEID) {
-                $icon = '<img src="' . $OUTPUT->pix_url('i/users') . '" class="icon" alt="Tutors" />';
+                $icon = '<img src="' . $users_icon . '" class="icon" alt="Tutors" />';
                 $this->content->items[] = '<a href="' . $CFG->wwwroot . '/mod/tsession/tutors.php?course=' . $course->id . '">' . $icon . get_string('tutors', 'tsession') . '</a>';
                 $this->content->icons[] = '';
             }
